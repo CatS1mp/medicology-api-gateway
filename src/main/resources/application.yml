@@ -1,0 +1,53 @@
+server:
+  port: ${GATEWAY_PORT:8084}
+  forward-headers-strategy: framework
+
+spring:
+  application:
+    name: medicology-api-gateway
+  cloud:
+    gateway:
+      # Bộ định tuyến mặc định: chuyển tiếp body/header/cookie nguyên trạng tới service đích.
+      # Không lưu, không xử lý JWT — token do FE giữ, BE tự verify trên header Authorization.
+      default-filters:
+        - PreserveHostHeader
+      routes:
+        - id: assessment-service
+          uri: ${ASSESSMENT_SERVICE_URL:http://localhost:8083}
+          predicates:
+            - Path=/api/assessment/**
+          filters:
+            - RewritePath=/api/assessment/(?<segment>.*), /api/v1/$\{segment}
+
+        - id: learning-service
+          uri: ${LEARNING_SERVICE_URL:http://localhost:8081}
+          predicates:
+            - Path=/api/learning/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /api/v1/$\{segment}
+
+        - id: dictionary-service
+          uri: ${DICTIONARY_SERVICE_URL:http://localhost:8082}
+          predicates:
+            - Path=/api/dictionary/**
+          # Dictionary service đã expose path /api/dictionary/** — không cần rewrite.
+
+        - id: auth-service
+          uri: ${AUTH_SERVICE_URL:http://localhost:8080}
+          predicates:
+            - Path=/api/auth/**,/api/admin/**,/api/oauth/**,/api/sessions/**,/api/profiles/**,/api/settings/**,/api/users/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /api/v1/$\{segment}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+  endpoint:
+    health:
+      show-details: when-authorized
+
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO
