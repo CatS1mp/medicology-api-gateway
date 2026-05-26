@@ -6,13 +6,13 @@ Reverse-proxy stateless dùng Spring Cloud Gateway. Vai trò duy nhất là chuy
 
 | Đường dẫn gateway nhận            | Service đích          | URL upstream (mặc định)        |
 | --------------------------------- | --------------------- | ------------------------------- |
-| `/api/auth/**`                    | auth-service          | `http://localhost:8080`         |
-| `/api/admin/**`                   | auth-service          | `http://localhost:8080`         |
-| `/api/oauth/**`                   | auth-service          | `http://localhost:8080`         |
-| `/api/sessions/**`                | auth-service          | `http://localhost:8080`         |
-| `/api/profiles/**`                | auth-service          | `http://localhost:8080`         |
-| `/api/settings/**`                | auth-service          | `http://localhost:8080`         |
-| `/api/users/**`                   | auth-service          | `http://localhost:8080`         |
+| `/api/auth/**`                    | auth-service          | `http://localhost:8085`         |
+| `/api/admin/**`                   | auth-service          | `http://localhost:8085`         |
+| `/api/oauth/**`                   | auth-service          | `http://localhost:8085`         |
+| `/api/sessions/**`                | auth-service          | `http://localhost:8085`         |
+| `/api/profiles/**`                | auth-service          | `http://localhost:8085`         |
+| `/api/settings/**`                | auth-service          | `http://localhost:8085`         |
+| `/api/users/**`                   | auth-service          | `http://localhost:8085`         |
 | `/api/learning/**`                | learning-service      | `http://localhost:8081`         |
 | `/api/dictionary/**`              | dictionary-service    | `http://localhost:8082`         |
 | `/api/assessment/**`              | assessment-service    | `http://localhost:8083`         |
@@ -23,8 +23,8 @@ Các path trên sẽ được rewrite về dạng `/api/v1/{segment}` trước k
 
 | Biến                       | Ý nghĩa                                  | Mặc định                  |
 | -------------------------- | ----------------------------------------- | ------------------------- |
-| `GATEWAY_PORT`             | Cổng gateway lắng nghe                    | `8090`                    |
-| `AUTH_SERVICE_URL`         | URL auth-service                          | `http://localhost:8080`   |
+| `GATEWAY_PORT`             | Cổng gateway lắng nghe                    | `8084`                    |
+| `AUTH_SERVICE_URL`         | URL auth-service                          | `http://localhost:8085`   |
 | `LEARNING_SERVICE_URL`     | URL learning-service                      | `http://localhost:8081`   |
 | `DICTIONARY_SERVICE_URL`   | URL dictionary-service                    | `http://localhost:8082`   |
 | `ASSESSMENT_SERVICE_URL`   | URL assessment-service                    | `http://localhost:8083`   |
@@ -35,8 +35,8 @@ Các path trên sẽ được rewrite về dạng `/api/v1/{segment}` trước k
 ./mvnw spring-boot:run
 ```
 
-Health: `GET http://localhost:8090/actuator/health`.
+Health: `GET http://localhost:8084/actuator/health`.
 
 ## Tích hợp FE
 
-Trong `medicology-website`, đặt `API_GATEWAY_URL=http://localhost:8090`. Mọi BFF proxy của Next.js sẽ forward request tới gateway theo path FE nhận được (`/api/{service}/...`), gateway phụ trách rewrite + chuyển tiếp tới BE.
+Trong `medicology-website`, đặt `API_GATEWAY_URL=http://localhost:8084`. Mọi BFF proxy của Next.js sẽ forward request tới gateway theo path FE nhận được (`/api/{service}/...`), gateway phụ trách rewrite + chuyển tiếp tới BE.

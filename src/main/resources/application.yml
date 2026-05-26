@@ -32,6 +32,11 @@ spring:
             - Path=/api/dictionary/**
           # Dictionary service đã expose path /api/dictionary/** — không cần rewrite.
 
+        - id: notification-service
+          uri: ${NOTIFICATION_SERVICE_URL:http://localhost:8085}
+          predicates:
+            - Path=/api/notifications,/api/notifications/**
+
         - id: auth-service
           uri: ${AUTH_SERVICE_URL:http://localhost:8080}
           predicates:
