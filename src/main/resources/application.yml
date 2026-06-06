@@ -1,5 +1,5 @@
 server:
-  port: ${GATEWAY_PORT:8084}
+  port: ${GATEWAY_PORT:8085}
   forward-headers-strategy: framework
 
 spring:
@@ -33,9 +33,9 @@ spring:
           # Dictionary service đã expose path /api/dictionary/** — không cần rewrite.
 
         - id: notification-service
-          uri: ${NOTIFICATION_SERVICE_URL:http://localhost:8085}
+          uri: ${NOTIFICATION_SERVICE_URL:http://localhost:8084}
           predicates:
-            - Path=/api/notifications,/api/notifications/**
+            - Path=/api/notifications,/api/notifications/**,/api/email-templates,/api/email-templates/**
 
         - id: auth-service
           uri: ${AUTH_SERVICE_URL:http://localhost:8080}
@@ -48,7 +48,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,gateway
+        include: health
   endpoint:
     health:
       show-details: when-authorized

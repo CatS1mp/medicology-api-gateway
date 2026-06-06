@@ -23,8 +23,8 @@ Các path trên sẽ được rewrite về dạng `/api/v1/{segment}` trước k
 
 | Biến                       | Ý nghĩa                                  | Mặc định                  |
 | -------------------------- | ----------------------------------------- | ------------------------- |
-| `GATEWAY_PORT`             | Cổng gateway lắng nghe                    | `8084`                    |
-| `AUTH_SERVICE_URL`         | URL auth-service                          | `http://localhost:8085`   |
+| `GATEWAY_PORT`             | Cổng gateway lắng nghe                    | `8085`                    |
+| `AUTH_SERVICE_URL`         | URL auth-service                          | `http://localhost:8080`   |
 | `LEARNING_SERVICE_URL`     | URL learning-service                      | `http://localhost:8081`   |
 | `DICTIONARY_SERVICE_URL`   | URL dictionary-service                    | `http://localhost:8082`   |
 | `ASSESSMENT_SERVICE_URL`   | URL assessment-service                    | `http://localhost:8083`   |
@@ -35,8 +35,8 @@ Các path trên sẽ được rewrite về dạng `/api/v1/{segment}` trước k
 ./mvnw spring-boot:run
 ```
 
-Health: `GET http://localhost:8084/actuator/health`.
+Health: `GET http://localhost:8085/actuator/health`.
 
 ## Tích hợp FE
 
-Trong `medicology-website`, đặt `API_GATEWAY_URL=http://localhost:8084`. Mọi BFF proxy của Next.js sẽ forward request tới gateway theo path FE nhận được (`/api/{service}/...`), gateway phụ trách rewrite + chuyển tiếp tới BE.
+Trong `medicology-website`, đặt `API_GATEWAY_URL=http://localhost:8085` (không dùng `8084` — cổng đó là notification-service). Mọi BFF proxy của Next.js sẽ forward request tới gateway theo path FE nhận được (`/api/{service}/...`), gateway phụ trách rewrite + chuyển tiếp tới BE.
